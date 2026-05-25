@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+        {% include('components/navbar.html.twig') %}
+
+        {% include('home/offer_of_the_day.html.twig') with { offer: offerOfTheDay } %}
+
+        {% include('home/offer_section.html.twig') with {title: "Best Deals", offers: bestDeals } %}
+        {% include('home/offer_section.html.twig') with {title: "Expiring Deals", offers: expiringDeals } %}
+        {% include('home/offer_section.html.twig') with {title: "Newest Deals", offers: newestDeals } %}
+{% endblock %}

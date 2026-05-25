@@ -1,0 +1,113 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <a class="navbar-brand" href="#">
+        <img
+            src="https://staging.svgrepo.com/show/15477/coin.svg"
+            alt="Logo"
+            width="40"
+            height="30"
+            class="d-inline-block align-text-center"
+        />
+        PickPocket
+    </a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/"
+                >Home</a
+                >
+            </li>
+        </ul>
+        <form class="d-flex me-auto" role="search">
+            <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+                    />
+                </svg>
+            </button>
+        </form>
+        <ul class="navbar-nav mb-2 mb-lg-0">
+            {% if isLoggedIn %}
+
+            <li class="nav-item">
+                <a class="nav-link position-relative" href="#" onclick="showBookmarksModal(); return false;">
+                    🔖 Bookmarks
+                </a>
+            </li>
+
+            <!-- Cart Modal -->
+            <div class="modal fade" id="bookmarksModal" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title fw-bold">🔖 Your Bookmarks</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" id="bookmarksModalBody" style="max-height: 400px; overflow-y: auto;">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary"></div>
+                                <p class="mt-2">Loading bookmarks...</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/bookmarks" class="btn btn-primary">View Full Cart</a>
+                            <button class="btn btn-success" onclick="checkout()">Checkout 🚀</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/catalog"
+                >catalog</a
+                >
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/myspace"
+                >My Space</a
+                >
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign Up</a>
+            </li>
+
+            {% endif %}
+        </ul>
+    </div>
+</nav>

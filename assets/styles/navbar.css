@@ -1,0 +1,63 @@
+:root {
+    --dark-blue: #102542;
+    --coral: #f87060;
+    --coral-dark: #fa5743;
+    --light-grey: #f7f7f7;
+    --taupe: #B3A394;
+    --white: #ffffff;
+}
+
+.navbar {
+    --bs-navbar-brand-color: var(--white) !important;
+}
+
+.navbar-brand {
+    color: var(--white);
+}
+
+.navbar-brand:focus,
+.navbar-brand:hover {
+    color: var(--white);
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+    color: var(--white);
+}
+
+.nav-link {
+    color: var(--white);
+}
+
+.nav-link:focus,
+.nav-link:hover {
+    color: var(--white);
+}
+
+.bg-body-tertiary {
+    background-color: var(--dark-blue) !important;
+}
+
+.btn-outline-success {
+    --bs-btn-color: var(--coral);
+    --bs-btn-border-color: var(--coral);
+    --bs-btn-hover-bg: var(--coral);
+    --bs-btn-hover-border-color: var(--coral);
+    --bs-btn-active-bg: var(--coral);
+    --bs-btn-active-border-color: var(--coral);
+    --bs-btn-disabled-color: var(--coral);
+    --bs-btn-disabled-border-color: var(--coral);
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--coral);
+    --bs-btn-border-color: var(--coral);
+    --bs-btn-hover-bg: var(--coral-dark);
+    --bs-btn-hover-border-color: var(--coral-dark);
+    --bs-btn-active-bg: var(--coral-dark);
+}
+
+.min-vw-25 {
+    min-width: 25vw;
+}
