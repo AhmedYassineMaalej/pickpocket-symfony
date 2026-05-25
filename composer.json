@@ -82,10 +82,17 @@
             "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "cd ProductExtractor && uv sync"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "cd ProductExtractor && uv sync"
+        ],
+        "dev": [
+            "php bin/console doctrine:schema:validate",
+            "cd ProductExtractor && uv run main.py --browser chrome",
+            "symfony server:start"
         ]
     },
     "conflict": {
