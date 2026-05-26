@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} | Pickpocket{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/productDetails.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="page">
+
+        <a href="{{ app.request.headers.get('referer') ?? path('app_catalog') }}" class="back-link">
+            ← Back
+        </a>
+
+        <div class="card product-card-detail">
+            <div class="product-layout">
+
+                <div class="img-wrap">
+                    {% if product.image %}
+                        <img src="{{ product.image }}" alt="{{ product.name }}">
+                    {% else %}
+                        <span class="no-img">No image</span>
+                    {% endif %}
+                </div>
+
+                <div class="product-right">
+                    <div class="ref">{{ product.reference }}</div>
+                    <h1 class="product-name">{{ product.name }}</h1>
+                    <span class="category-tag">{{ product.category.name }}</span>
+
+                    <div class="divider"></div>
+
+                    {% if product.info is not empty %}
+                        <div class="specs-title">Specifications</div>
+                        <table class="specs-table">
+                            {% for info in product.info %}
+                                <tr>
+                                    <td class="spec-key">{{ info.key }}</td>
+                                    <td class="spec-val">{{ info.value }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    {% else %}
+                        <p class="muted">No specifications available.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="offers-header">
+                <span class="offers-title">Available offers</span>
+                <span class="muted">{{ offers|length }} store{{ offers|length != 1 ? 's' : '' }}</span>
+            </div>
+
+            {% if offers is not empty %}
+                {% for offer in offers %}
+                    {% set isBest = loop.first %}
+                    <div class="offer-row {{ isBest ? 'offer-row--best' : '' }}">
+
+                        {% if offer.provider.icon %}
+                            <img src="{{ offer.provider.icon }}"
+                                 alt="{{ offer.provider.name }}"
+                                 class="prov-logo">
+                        {% else %}
+                            <div class="prov-initials">
+                                {{ offer.provider.name|slice(0, 3)|upper }}
+                            </div>
+                        {% endif %}
+
+                        <div class="prov-name">{{ offer.provider.name }}</div>
+
+                        <div class="price-col">
+                        <span class="offer-price {{ isBest ? 'offer-price--best' : '' }}">
+                            {{ offer.price|number_format(2) }} TND
+                        </span>
+                            {% if isBest %}
+                                <span class="best-tag">★ Best deal</span>
+                            {% endif %}
+                        </div>
+
+                        {% if offer.link %}
+                            <a href="{{ offer.link }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="check-btn {{ isBest ? 'check-btn--best' : '' }}">
+                                Check offer ↗
+                            </a>
+                        {% else %}
+                            <span class="check-btn check-btn--disabled">No link</span>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="muted">No offers available for this product.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}

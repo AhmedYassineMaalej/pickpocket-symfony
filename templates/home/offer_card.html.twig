@@ -3,8 +3,9 @@
     <h5 class="product-title fw-bold">{{offer.product.name}}</h5>
     <p class="product-reference text-muted">Ref: {{offer.product.reference}}</p>
     <p class="product-price text-success fs-5 fw-bold">Starting at {{offer.price}} TND</p>
-    <a href="/product?ref={{ offer.product.reference }}" class="product-details-btn">
-        View Details
+    <a href="{{ path('app_product_detail', { id: offer.product.id }) }}"
+       class="btn btn-primary flex-grow-1">
+        View details
     </a>
     <button class="product-bookmark-btn" data-reference="<?= htmlspecialchars($product->reference) ?>"></button>
 </div>

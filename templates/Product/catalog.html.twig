@@ -86,10 +86,10 @@
                                         No offers yet
                                     {% endif %}
                                 </p>
-                                <button class="btn btn-primary flex-grow-1"
-                                        onclick="showProductModal({{ product.id }})">
+                                <a href="{{ path('app_product_detail', { id: product.id }) }}"
+                                   class="btn btn-primary flex-grow-1">
                                     View details
-                                </button>
+                                </a>
                                 <button class="product-bookmark-btn"
                                         onclick="toggleBookmark('{{ product.reference }}', this)">
                                     <img src="/bookmark-empty.svg">
@@ -105,29 +105,6 @@
 
     </div>
 
-    <script>
-        function applyFilters() {
-            const url = new URL(window.location.href);
-
-            const category = document.getElementById('category').value;
-            if (category) {
-                url.searchParams.set('category', category);
-            } else {
-                url.searchParams.delete('category');
-            }
-
-            const minPrice = document.getElementById('minPriceInput').value;
-            const maxPrice = document.getElementById('maxPriceInput').value;
-            url.searchParams.set('minPrice', minPrice);
-            url.searchParams.set('maxPrice', maxPrice);
-
-            const q = url.searchParams.get('q');
-            if (q) {
-                url.searchParams.set('q', q);
-            }
-
-            window.location.href = url.toString();
-        }
-    </script>
+    <script src="/js/filters.js"></script>
 
 {% endblock %}
