@@ -29,12 +29,14 @@
                 >
             </li>
         </ul>
-        <form class="d-flex me-auto" role="search">
+        <form class="d-flex me-auto" role="search" method="GET" action="/products">
             <input
                 class="form-control me-2"
                 type="search"
-                placeholder="Search"
+                name="q"
+                placeholder="Search products..."
                 aria-label="Search"
+                value="{{ app.request.query.get('q') }}"
             />
             <button class="btn btn-outline-success" type="submit">
                 <svg
@@ -82,12 +84,27 @@
                 </div>
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/catalog"
-                >catalog</a
-                >
-            </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu" style="max-height: 300px; overflow-y: auto;">
+                        <li>
+                            <a class="dropdown-item" href="/products">
+                                🗂️ All Categories
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        {% for category in categories %}
+                            <li>
+                                <a class="dropdown-item" href="/products?category={{ category.id }}">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/myspace"
                 >My Space</a
