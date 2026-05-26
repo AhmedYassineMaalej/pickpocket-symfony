@@ -7,7 +7,7 @@ dotenv.config({ path: "../.env", override: true });
 export const pool = mysql.createPool({
     host: 'localhost',
     user: process.env.DB_USER!,
-    password: process.env.DB_PASSWORD!,
+    password: process.env.DB_PASS!,
     database: process.env.DB_NAME!,
     connectionLimit: 15,
     waitForConnections: true,
