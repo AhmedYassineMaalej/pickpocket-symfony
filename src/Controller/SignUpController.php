@@ -60,9 +60,8 @@ final class SignUpController extends AbstractController
             return $response;
         }
 
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
         $user = new User();
-        $user->setPassword($hashedPassword);
+        $user->setPassword($password);
         $user->setUsername($username);
         $entityManager->persist($user);
         $entityManager->flush();
