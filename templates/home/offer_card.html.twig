@@ -1,10 +1,10 @@
-<div class="product-card">
+<div class="offer-card">
     <img src="{{ offer.product.image }}" class="product-img" alt="product image">
-    <h5 class="product-title fw-bold">{{offer.product.name}}</h5>
+    <h5 class="product-name fw-bold">{{offer.product.name}}</h5>
     <p class="product-reference text-muted">Ref: {{offer.product.reference}}</p>
-    <p class="product-price text-success fs-5 fw-bold">Starting at {{offer.price}} TND</p>
+    <p class="offer-price text-success fs-5 fw-bold">Starting at {{offer.price}} TND</p>
     <a href="/product?ref={{ offer.product.reference }}" class="product-details-btn">
         View Details
     </a>
-    <button class="product-bookmark-btn" data-reference="<?= htmlspecialchars($product->reference) ?>"></button>
+    <button class="product-bookmark-btn" data-reference="{{ offer.product.reference }}"></button>
 </div>

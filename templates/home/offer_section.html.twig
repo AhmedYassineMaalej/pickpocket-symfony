@@ -1,12 +1,10 @@
-<section class="<?= $bg ?>">
-    <div class="container mb-5">
-        <h1 class="mb-4">{{title }}</h1>
-        <div class="products-container">
-            {% for offer in offers %}
+<section class="offer-section">
+    <h1 class="offer-title">{{ title }}</h1>
+    <div class="offer-container">
+        {% for offer in offers %}
 
-            {% include("home/offer_card.html.twig") with  {"offer": offer} %}
+        {% include("home/offer_card.html.twig") with  {"offer": offer} %}
 
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
 </section>

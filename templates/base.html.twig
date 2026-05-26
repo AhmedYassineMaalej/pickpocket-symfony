@@ -23,6 +23,8 @@
         {% endif %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {{ render(controller('App\\Controller\\NavbarController::renderNavbar')) }}
+
+        {% block body %} {% endblock %}
     </body>
 </html>
