@@ -1,4 +1,4 @@
-.offer-card {
+.product-card {
     display: grid;
     grid-template:
         "image image" 250px
@@ -31,7 +31,7 @@
     margin: 0;
 }
 
-.offer-price {
+.product-price {
     grid-area: price;
     margin: 0;
 }
