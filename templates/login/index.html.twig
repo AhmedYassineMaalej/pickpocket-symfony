@@ -16,24 +16,6 @@
                 <p class="text-muted">Login to continue hunting the best deals 💰</p>
             </div>
 
-            <!-- <!-- Error Messages -->
-            <!-- <?php if (isset($_GET['error'])): ?> -->
-            <!--     <div class="alert alert-danger alert-dismissible fade show"> -->
-            <!--         <?php -->
-            <!--             $error = $_GET['error']; -->
-            <!--             $message = ''; -->
-            <!--             switch($error) { -->
-            <!--                 case 'invalid_credentials': $message = 'Wrong username or password. Please try again.'; break; -->
-            <!--                 case 'missing_fields': $message = 'Please fill in all fields.'; break; -->
-            <!--                 case 'invalid_csrf': $message = 'Invalid security token. Please try again.'; break; -->
-            <!--                 default: $message = 'Something went wrong. Please try again.'; -->
-            <!--             } -->
-            <!--             echo htmlspecialchars($message); -->
-            <!--         ?> -->
-            <!--         <button type="button" class="btn-close" data-bs-dismiss="alert"></button> -->
-            <!--     </div> -->
-            <!-- <?php endif; ?> -->
-
             <!-- Login Form -->
             <form action="/login" method="POST">
                 <div class="mb-3">
@@ -54,7 +36,6 @@
                            name="password"
                            placeholder="Enter your password"
                            required>
-                    <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">

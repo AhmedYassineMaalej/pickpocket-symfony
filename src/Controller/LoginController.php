@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Helpers\CSRF;
 use App\Helpers\JWT;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -14,70 +15,46 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LoginController extends AbstractController
 {
     private UserRepository $userRepository;
-    #[Route('/login', name: 'login')]
+    #[Route('/login', methods: ["GET"], name: 'login_page')]
     public function index(Request $request, Session $session, UserRepository $userRepository): Response
     {
+        $session = $request->getSession();
+
         if (JWT::isLoggedIn()) {
-            $_SESSION['error'] = "You're already logged in !";
+            $session->set("error", "You're already logged in !");
             header('Location: /');
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            return self::authenticate($userRepository);
-        } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $token = CSRF::generate_token();
-            $session->set("csrf_token", $token);
-            return $this->render('login/index.html.twig', [
-                'controller_name' => 'LoginController',
-            ]);
-        } else {
-            header('HTTP/1.1 405 Method Not Allowed');
-            echo "Method Not Allowed";
-            exit;
-        }
-
-
-        return $this->render('login/index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
+        return $this->render('login/index.html.twig', []);
     }
 
-    public static function authenticate(UserRepository $userRepository)
+
+    #[Route('/login', methods: ["POST"], name: 'login')]
+    public function login(Request $request, UserRepository $userRepository): Response
     {
+        $session = $request->getSession();
+        $response = new RedirectResponse("/login");
 
-        // validate that CSRF Token if it exists ofc
-        $csrf_token = $_POST['csrf'] ?? '';
-        if (! CSRF::validate_token($csrf_token ?? '')) {
-            $_SESSION['error'] = 'Invalid security token. Please try again.';
-            header('Location: /login');
-            exit;
-        }
-        // get username and password from POST data
-
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $username = $request->request->get("username");
+        $password = $request->request->get("password");
 
         if (empty($username) || empty($password)) {
-            $_SESSION['error'] = 'Please fill out all the fields';
-            header('Location: /login');
-            exit;
+            $session->set('error', 'Please fill out all the fields');
+            return $response;
         }
 
         $user = $userRepository->findBy(["username" => $username])[0];
 
         if ($user && password_verify($password, $user->getPassword())) {
             $jwt_cookie = JWT::issue_jwt($username, $user->getId());
-            setcookie("JWT", $jwt_cookie, time() + 3600, "/", "", false, true);
-            error_log("JWT issued: " . $jwt_cookie);
-            header('Location: /myspace');
-            exit;
-        } else {
-            $_SESSION['error'] = 'Invalid credentials';
-            header('Location: /login');
-            exit;
+            $cookie = new Cookie("JWT", $jwt_cookie, time() + 3600, "/", secure: false, httpOnly: true);
+            $response->headers->setCookie($cookie);
+            $response->setTargetUrl('/');
+            return $response;
         }
-    }
 
-    public static function show_login_form() {}
+        $session->set('error', 'Invalid credentials');
+        return $response;
+    }
 }
