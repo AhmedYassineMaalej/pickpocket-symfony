@@ -1,11 +1,30 @@
-import { GetCategory, identity, Scrape, ScrapeCategory, ScrapeOffers, ScrapeProductInfo, ScrapeProvider } from "../instructions.ts"
-import { Category } from "../models/category.ts"
+import { identity, Scrape } from "../instructions.ts"
 import { Provider } from "../models/provider.ts"
+import { Workflow } from "./workflow.ts"
 
-const scrape_product_info = new ScrapeProductInfo(
-    new Scrape(".data.table th.col.label", "innerHTML", identity),
-    new Scrape(".data.table td.col.data", "innerHTML", identity),
+const provider = new Provider(
+    "mytek",
+    "https://mk-media.mytek.tn/media/logo/stores/1/LOGO-MYTEK-176PX-INVERSE.png",
+    "https://www.mytek.tn/",
 )
+
+const categories = new Map([
+    ["Memory", "https://www.mytek.tn/informatique/composants-informatique/barrettes-memoire.html"],
+    ["GPU", "https://www.mytek.tn/informatique/composants-informatique/carte-graphique.html"]
+])
+
+export const workflow = new Workflow({
+    provider,
+    categories,
+    productPrice: new Scrape(".product-container span.final-price", "innerHTML", processPrice),
+    productName: new Scrape(".product-container a.product-item-link", "innerHTML", (str: string) => str.trim()),
+    productLink: new Scrape(".product-container a.product-item-link", "href", identity),
+    productImage: new Scrape(".product-container .product-item-photo img", "src", identity),
+    productReference: new Scrape(".product-container .sku", "innerHTML", processReference),
+    productInfoKey: new Scrape(".data.table th.col.label", "innerHTML", identity),
+    productInfoValue: new Scrape(".data.table td.col.data", "innerHTML", identity),
+});
+
 
 
 function processReference(price: string): string {
@@ -19,45 +38,3 @@ function processPrice(price: string): number {
 
     return Number.parseFloat(price)
 }
-
-
-const scrapeOffers = new ScrapeOffers(
-    new Scrape(
-        ".product-container span.final-price", "innerHTML", processPrice
-    ),
-    new Scrape(
-        ".product-container a.product-item-link", "innerHTML", (str: string) => str.trim()
-    ),
-    new Scrape(
-        ".product-container a.product-item-link",
-        "href",
-        identity
-    ),
-    new Scrape(".product-container .product-item-photo img", "src", identity),
-    new Scrape(".product-container .sku", "innerHTML", processReference),
-    scrape_product_info,
-)
-
-const provider = new Provider(
-    "mytek",
-    "https://mk-media.mytek.tn/media/logo/stores/1/LOGO-MYTEK-176PX-INVERSE.png",
-    "https://www.mytek.tn/",
-)
-
-const categories = new Map([
-    ["Memory", "https://www.mytek.tn/informatique/composants-informatique/barrettes-memoire.html"],
-    ["GPU", "https://www.mytek.tn/informatique/composants-informatique/carte-graphique.html"]
-])
-
-
-
-const getCategories: GetCategory[] = []
-
-
-categories.forEach((url, categoryName) => {
-    const category = new Category(categoryName);
-    getCategories.push(new GetCategory(url, new ScrapeCategory(category, scrapeOffers)));
-})
-
-
-export const scrapeProvider = new ScrapeProvider(provider, ...getCategories);

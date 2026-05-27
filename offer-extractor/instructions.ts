@@ -90,12 +90,17 @@ export class Scrape<T = string> implements Instruction<T[]> {
     }
 }
 
+export interface ScrapeProductInfoParams {
+    scrapeKeys: Scrape<string>;
+    scrapeValues: Scrape<string>;
+}
+
 
 export class ScrapeProductInfo implements Instruction<Map<string, string>> {
     scrapeKeys: Scrape<string>;
     scrapeValues: Scrape<string>;
 
-    constructor(scrapeKeys: Scrape<string>, scrapeValues: Scrape<string>) {
+    constructor({ scrapeKeys, scrapeValues }: ScrapeProductInfoParams) {
         this.scrapeKeys = scrapeKeys;
         this.scrapeValues = scrapeValues;
     }
@@ -110,6 +115,15 @@ export class ScrapeProductInfo implements Instruction<Map<string, string>> {
     }
 }
 
+export interface ScrapeOffersParams {
+    scrapePrice: Scrape<number>,
+    scrapeNames: Scrape<string>,
+    scrapeLinks: Scrape<string>,
+    scrapeImages: Scrape<string>,
+    scrapeReferences: Scrape<string>,
+    scrapeProductInfo: ScrapeProductInfo,
+}
+
 
 export class ScrapeOffers {
     scrapePrices: Scrape<number>;
@@ -119,14 +133,14 @@ export class ScrapeOffers {
     scrapeReferences: Scrape<string>;
     scrapeProductInfo: ScrapeProductInfo;
 
-    constructor(
-        scrapePrices: Scrape<number>,
-        scrapeNames: Scrape<string>,
-        scrapeLinks: Scrape<string>,
-        scrapeImages: Scrape<string>,
-        scrapeReferences: Scrape<string>,
-        scrapeProductInfo: ScrapeProductInfo,
-    ) {
+    constructor({
+        scrapePrice: scrapePrices,
+        scrapeNames,
+        scrapeLinks,
+        scrapeImages,
+        scrapeReferences,
+        scrapeProductInfo,
+    }: ScrapeOffersParams) {
         this.scrapePrices = scrapePrices;
         this.scrapeNames = scrapeNames;
         this.scrapeLinks = scrapeLinks;
