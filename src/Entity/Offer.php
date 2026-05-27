@@ -27,6 +27,9 @@ class Offer
     #[ORM\JoinColumn(nullable: false)]
     private ?Provider $provider = null;
 
+    #[ORM\Column]
+    private ?\DateTime $date = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Offer
     public function setProvider(?Provider $provider): static
     {
         $this->provider = $provider;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTime
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTime $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }
