@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductsController extends AbstractController
 {
     #[Route('/products', name: 'app_products')]
-    #[Route('/products', name: 'app_products')]
     public function index(
         Request $request,
         ProductRepository $productRepository,
