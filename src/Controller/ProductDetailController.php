@@ -21,7 +21,7 @@ class ProductDetailController extends AbstractController
         $offers = $product->getOffers()->toArray();
         usort($offers, fn($a, $b) => $a->getPrice() <=> $b->getPrice());
 
-        return $this->render('product/detail.html.twig', [
+        return $this->render('Product/detail.html.twig', [
             'product' => $product,
             'offers'  => $offers,
             'category' => $product->getCategory(),
