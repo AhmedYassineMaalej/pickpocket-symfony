@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductDetailController extends AbstractController
 {
-    #[Route('/product/{id}', name: 'app_product_detail', requirements: ['id' => '\d+'])]
+    #[Route('/product/{id}', name: 'product_detail', requirements: ['id' => '\d+'])]
     public function index(int $id, ProductRepository $productRepository): Response
     {
         $product = $productRepository->find($id);
