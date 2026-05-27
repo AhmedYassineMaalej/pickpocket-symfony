@@ -52,7 +52,7 @@
 
 .product-bookmark-btn {
     grid-area: bookmark;
-    background-image: url('/bookmark-empty.svg');
+    background-image: url('/../images/bookmark-empty.svg');
     background-size: cover;
     background-repeat: no-repeat;
     background-color: transparent;
@@ -66,5 +66,5 @@
 
 
 .product-bookmark-btn.bookmark-full {
-    background-image: url('/bookmark-full.svg');
+    background-image: url('/../images/bookmark-full.svg');
 }
