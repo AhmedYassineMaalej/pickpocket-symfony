@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class NavbarController extends AbstractController
 {
-    #[Route('/navbar', name: 'app_navbar')]
+    #[Route(name: 'navbar')]
     public function renderNavbar(): Response
     {
         return $this->render('navbar/index.html.twig', [

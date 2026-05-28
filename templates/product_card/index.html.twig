@@ -7,5 +7,5 @@
        class="product-details-btn">
         View details
     </a>
-    <button class="product-bookmark-btn" data-reference="{{ offer.product.reference }}"></button>
+    <button class="product-bookmark-btn {{ isBookmarked ? "bookmark-full" : ""}}" data-productId="{{ offer.product.id }}"></button>
 </div>

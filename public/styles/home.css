@@ -6,10 +6,3 @@
 .offer-section {
     margin: 2em;
 }
-
-.offer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding-top: 1em;
-}

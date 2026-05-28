@@ -23,7 +23,7 @@
         {% endif %}
     </head>
     <body>
-        {% include 'navbar/index.html.twig' %}
+        {{ render(controller('App\\Controller\\NavbarController::renderNavbar')) }}
         {% block body %}{% endblock %}
     </body>
 </html>

@@ -3,7 +3,7 @@
     <div class="offer-container">
         {% for offer in offers %}
 
-        {% include("home/offer_card.html.twig") with  {"offer": offer} %}
+        {{ render(controller('App\\Controller\\ProductCardController::renderProductCard', {'offer': offer})) }}
 
         {% endfor %}
     </div>

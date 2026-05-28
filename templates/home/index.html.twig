@@ -7,10 +7,15 @@
 <link href="{{ asset("styles/product_card.css") }}" rel="stylesheet">
 {% endblock %}
 
-{% block body %}
-        {% include('home/offer_of_the_day.html.twig') with { offer: offerOfTheDay } %}
+{% block javascripts %}
+<script src="{{asset('js/product_card.js')}}" defer></script>
 
-        {% include('home/offer_section.html.twig') with {title: "Best Deals", offers: bestDeals } %}
-        {% include('home/offer_section.html.twig') with {title: "Expiring Deals", offers: expiringDeals } %}
-        {% include('home/offer_section.html.twig') with {title: "Newest Deals", offers: newestDeals } %}
+{% endblock %}
+
+{% block body %}
+        {{ include('home/offer_of_the_day.html.twig', { offer: offerOfTheDay }) }}
+
+        {{ include('home/offer_section.html.twig', {title: "Best Deals", offers: bestDeals}) }}
+        {{ include('home/offer_section.html.twig', {title: "Expiring Deals", offers: expiringDeals }) }}
+        {{ include('home/offer_section.html.twig', {title: "Newest Deals", offers: newestDeals }) }}
 {% endblock %}

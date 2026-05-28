@@ -9,6 +9,11 @@
 
 {% endblock %}
 
+{% block javascripts %}
+<script src="{{asset('js/product_card.js')}}" defer></script>
+
+{% endblock %}
+
 {% block body %}
 
 <header class="catalog-header text-white text-center py-5">
@@ -51,7 +56,7 @@
                 {% endif %}
                 {% endfor %}
 
-                {{ include('home/offer_card.html.twig', {offer: bestOffer}) }}
+                {{ render(controller('App\\Controller\\ProductCardController::renderProductCard', {'offer': bestOffer})) }}
                 {% endfor %}
             </div>
             {% endif %}
