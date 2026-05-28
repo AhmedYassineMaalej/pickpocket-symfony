@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ProductsController extends AbstractController
+class SearchController extends AbstractController
 {
-    #[Route('/products', name: 'app_products')]
+    #[Route('/search', name: 'search')]
     public function index(
         Request $request,
         ProductRepository $productRepository,
@@ -28,7 +28,7 @@ class ProductsController extends AbstractController
             ? $categoryRepository->find($categoryId)
             : null;
 
-        return $this->render('product/catalog.html.twig', [
+        return $this->render('search/index.html.twig', [
             'products'        => $products,
             'query'           => $query,
             'currentCategory' => $currentCategory,

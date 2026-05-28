@@ -28,7 +28,7 @@
                 >
             </li>
         </ul>
-        <form class="d-flex me-auto" role="search" method="GET" action="/products">
+        <form class="d-flex me-auto" role="search" method="GET" action="/search">
             <input
                 class="form-control me-2"
                 type="search"
@@ -90,14 +90,14 @@
                     </a>
                     <ul class="dropdown-menu" style="max-height: 300px; overflow-y: auto;">
                         <li>
-                            <a class="dropdown-item" href="/products">
+                            <a class="dropdown-item" href="/search">
                                 🗂️ All Categories
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         {% for category in categories %}
                             <li>
-                                <a class="dropdown-item" href="/products?category={{ category.id }}">
+                                <a class="dropdown-item" href="/search?category={{ category.id }}">
                                     {{ category.name }}
                                 </a>
                             </li>

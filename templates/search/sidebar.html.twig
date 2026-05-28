@@ -1,0 +1,30 @@
+<aside class="sidebar-area">
+    <div class="sidebar">
+        {# PRICE FILTER #}
+        <div class="filter-section">
+            <h4>Price</h4>
+            <div class="price-inputs">
+                <input type="number" id="minPriceInput"
+                    value="{{ app.request.query.get('minPrice', 0) }}"
+                    onchange="applyFilters()">
+                <input type="number" id="maxPriceInput"
+                    value="{{ app.request.query.get('maxPrice', 1000000) }}"
+                    onchange="applyFilters()">
+            </div>
+        </div>
+
+        {# CATEGORY FILTER #}
+        <div class="filter-section">
+            <h4>Category</h4>
+            <select id="category" onchange="applyFilters()">
+                <option value="">All</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}"
+                    {{ app.request.query.get('category') == (cat.id ~ '') ? 'selected="selected"' : '' }}>
+                    {{ cat.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</aside>

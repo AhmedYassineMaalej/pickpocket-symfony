@@ -1,0 +1,21 @@
+.catalog-layout {
+    display: grid;
+    grid-template: "sidebar catalog" / 20% 80%;
+}
+
+.sidebar-area {
+    grid-area: sidebar;
+    position: sticky;
+    align-self: start;
+}
+
+.sidebar {
+    background: white;
+    border-radius: 10px;
+    margin: 1em;
+    padding: 0.5em;
+}
+
+.catalog {
+    grid-area: catalog;
+}

@@ -3,7 +3,7 @@
     <h5 class="product-title fw-bold">{{offer.product.name}}</h5>
     <p class="product-reference text-muted">Ref: {{offer.product.reference}}</p>
     <p class="product-price text-success fs-5 fw-bold">Starting at {{offer.price}} TND</p>
-    <a href="{{ path('product_detail', { id: offer.product.id }) }}"
+    <a href="{{ path('product', { id: offer.product.id }) }}"
        class="product-details-btn">
         View details
     </a>

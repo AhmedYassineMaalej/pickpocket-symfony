@@ -1,0 +1,66 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles/product_card.css') }}">
+<link rel="stylesheet" href="{{ asset('styles/search.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+<header class="catalog-header text-white text-center py-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">📦 Product Catalog</h1>
+        <p class="lead mb-0">
+            {% if currentCategory %}
+            Browsing: {{ currentCategory.name }}
+            {% elseif query %}
+            Results for "{{ query }}"
+            {% else %}
+            Compare prices and choose where to buy the best deals!
+            {% endif %}
+        </p>
+    </div>
+</header>
+
+<div class="catalog-layout">
+
+    {%  include("search/sidebar.html.twig") %}
+
+    {# PRODUCTS #}
+    <main class="catalog">
+        <div class="container mb-5">
+
+            {% if products is empty %}
+            <div class="alert alert-info mt-4">
+                No products found
+                {% if query %} for "<strong>{{ query }}</strong>"{% endif %}
+                {% if currentCategory %} in <strong>{{ currentCategory.name }}</strong>{% endif %}.
+            </div>
+            {% else %}
+            <div class="offer-container">
+                {% for product in products %}
+
+                {% set bestOffer = null %}
+                {% for offer in product.offers %}
+                {% if bestOffer is null or offer.price < bestOffer.price %}
+                {% set bestOffer = offer %}
+                {% endif %}
+                {% endfor %}
+
+                {{ include('home/offer_card.html.twig', {offer: bestOffer}) }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+</div>
+
+<script src="/js/filters.js"></script>
+
+{% endblock %}
