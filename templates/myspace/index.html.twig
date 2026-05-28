@@ -1,0 +1,199 @@
+{# templates/myspace/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}My Space{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/myspace.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/cart.css') }}">
+    
+    <style>
+        header nav a[href*="bookmarks"], 
+        header nav a[href*="logout"],
+        .navbar-nav a[href*="bookmarks"], 
+        .navbar-nav a[href*="logout"],
+        .navbar [class*="bookmark"] {
+            display: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="stickers-container">
+    <div class="sticker">🪙</div>
+    <div class="sticker">💰</div>
+    <div class="sticker">💵</div>
+    <div class="sticker">💸</div>
+    <div class="sticker">💰</div>
+    <div class="sticker">💵</div>
+    <div class="sticker">🪙</div>
+    <div class="sticker">💸</div>
+    <div class="sticker">🪙</div>
+    <div class="sticker">💰</div>
+    <div class="sticker">💵</div>
+    <div class="sticker">🪙</div>
+    <div class="sticker">💸</div>
+    <div class="sticker">🪙</div>
+    <div class="sticker">💰</div>
+</div>
+
+{# Symfony Flash Messages #}
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible fade show fixed-toast-alert" role="alert">
+        <strong>⚠️ Error!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show fixed-toast-alert" role="alert">
+        <strong>✅ Success!</strong> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+{% set activeTab = currentTab|default('dashboard') %}
+
+<div class="container-fluid">
+    <div class="row">    
+        <nav class="col-md-3 col-lg-2 d-md-block sidebar shadow-sm p-4 sidebar-glass">
+            <div class="position-sticky text-center pt-3">
+                <div class="profile-avatar-wrapper mb-3 mx-auto d-flex align-items-center justify-content-center bg-secondary rounded-circle text-white">
+                    👤
+                </div>
+                <h5 class="fw-bold text-white mb-4">{{ username|default('User') }}</h5>
+                <hr class="text-white-50 mb-4">
+                
+                <div class="nav flex-column nav-pills text-start">
+                    <a class="nav-link btn w-100 text-start py-3 mb-2 text-white {{ (activeTab == 'dashboard') ? 'btn-coral active' : 'bg-transparent' }}" href="{{ path('app_myspace') }}">
+                        <span class="me-2">🎯</span> Recommendations
+                    </a>
+                    
+                    <a class="nav-link btn w-100 text-start py-3 mb-2 text-white {{ (activeTab == 'bookmarks') ? 'btn-coral active' : 'bg-transparent' }}" href="{{ path('app_myspace', {tab: 'bookmarks'}) }}">
+                        <span class="me-2">❤️</span> Bookmarks
+                    </a>
+                    
+                    <a class="nav-link btn w-100 text-start py-3 mb-2 text-white {{ (activeTab == 'settings') ? 'btn-coral active' : 'bg-transparent' }}" href="{{ path('app_myspace', {tab: 'settings'}) }}">
+                        <span class="me-2">⚙️</span> Settings
+                    </a>
+                    
+                    <a class="nav-link btn w-100 text-start py-3 mt-4 text-danger bg-transparent" href="/logout">
+                        <span class="me-2">↪️</span> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+            <div class="content-limit-wrapper">
+                
+                {% if activeTab == 'settings' %}
+                    <section class="p-3">
+                        <h3 class="fw-bold text-white mb-4">⚙️ Account Settings</h3><br>
+                        <div class="card shadow border-0 p-4 settings-card-wrapper">
+                            <form action="/myspace/update" method="POST" id="settingsForm">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label fw-bold text-white">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username" value="{{ username|default('') }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="old_password" class="form-label fw-bold text-white">Current Password</label>
+                                    <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Verify current password to commit changes" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="new_password" class="form-label fw-bold text-white">New Password</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your new password choice" required>
+                                </div>
+                                <button type="submit" id="saveBtn" class="btn btn-coral w-100 py-2 fw-bold text-white" disabled>Save Changes 💾</button>
+                            </form>
+                        </div>
+                    </section>
+                    
+                {% elseif activeTab == 'bookmarks' %}
+                    <section class="p-3">
+                        <h3 class="fw-bold text-white mb-4">❤️ Bookmarks</h3><br>
+                        {% if bookmarks is not empty %}
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                                {% for item in bookmarks %}
+                                    <div class="col" id="bookmark-card-{{ item.id }}">
+                                        <div class="card h-100 shadow border-0 text-white">
+                                            <div class="card-body text-center p-4 d-flex flex-column justify-content-between">
+                                                
+                                                <div>
+                                                    <img src="{{ asset(item.product.image) }}" alt="{{ item.product.name }}" class="product-display-img">
+                                                    <h5 class="card-title fw-bold text-white">{{ item.product.name }}</h5>
+                                                    
+                                                    <p class="text-coral fw-bold mb-3">
+                                                        {% if item.product.offers is not empty %}
+                                                            {% set prices = [] %}
+                                                            {% for offer in item.product.offers %}
+                                                                {% set prices = prices|merge([offer.price]) %}
+                                                            {% endfor %}
+                                                            From {{ prices|reduce((min, p) => p < min ? p : min, prices[0]) }} TND
+                                                        {% else %}
+                                                            No Active Offers
+                                                        {% endif %}
+                                                    </p>
+                                                </div>
+
+                                                <div class="d-flex align-items-center gap-2 mt-3">
+                                                    {# UPDATED: Uses route 'product' from ProductController #}
+                                                    <button class="btn btn-primary flex-grow-1 text-white fw-bold py-2" 
+                                                            onclick="window.location.href='{{ path('product', {'id': item.product.id}) }}'">
+                                                        View Product 🚀
+                                                    </button>
+                                                    
+                                                    <button class="btn btn-link p-0 d-flex align-items-center justify-content-center bookmark-toggle-btn" 
+                                                            onclick="deleteBookmarkFromDb(this, {{ item.product.id|abs }})">
+                                                        <img src="{{ asset('images/bookmark-full.svg') }}" alt="Bookmarked" class="bookmark-icon" style="width: 24px; height: 24px;">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="p-4 rounded text-center empty-catalog-fallback">
+                                <p class="text-muted mb-0">Your bookmark catalog list is currently empty.</p>
+                            </div>
+                        {% endif %}
+                    </section>
+                    
+                {% else %}
+                    <section class="p-3">
+                        <h3 class="section-title fw-bold text-white mb-4">🎯 Recommendations</h3><br>
+                        {% if recommendedProducts is not empty %}
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+                                {% for product in recommendedProducts %}
+                                    <div class="col">
+                                        <div class="card h-100 shadow border-0 product-card text-white">
+                                            <div class="card-body text-center p-4">
+                                                <img src="{{ asset(product.image) }}" alt="{{ product.name }}" class="product-display-img">
+                                                <h5 class="card-title fw-bold text-white">{{ product.name }}</h5>
+                                                <p class="text-light small opacity-75">Ref: {{ product.reference }}</p>
+                                                <button class="btn btn-coral w-100 text-white fw-bold" onclick="window.location.href='/catalog?ref={{ product.reference|url_encode }}'">View Deals 🚀</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="p-4 rounded text-center empty-catalog-fallback">
+                                <p class="text-muted mb-0">No custom recommendations are available for your profile right now.</p>
+                            </div>
+                        {% endif %}
+                    </section>
+                {% endif %}
+                
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/myspace.js') }}"></script>
+{% endblock %}

@@ -24,3 +24,8 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 .php-cs-fixer.cache
+/migrations
+/node_modules
+package.json
+/offer-extraction
+offer-extraction

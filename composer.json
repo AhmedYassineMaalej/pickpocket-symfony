@@ -91,7 +91,7 @@
         ],
         "dev": [
             "php bin/console doctrine:schema:validate",
-            "cd ProductExtractor && uv run main.py --browser chrome",
+            "cd offer-extraction && npm run start chrome",
             "symfony server:start"
         ]
     },

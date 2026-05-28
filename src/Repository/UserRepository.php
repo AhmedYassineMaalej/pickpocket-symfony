@@ -16,6 +16,26 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * Updates the user's username and hashes their new password safely.
+     */
+    public function updateProfileDetails(int $userId, string $newUsername, string $newPassword): void
+    {
+        $entityManager = $this->getEntityManager();
+        
+        $user = $this->find($userId);
+        
+        if ($user) {
+            $user->setUsername($newUsername);
+            
+            $user->setPassword($newPassword);
+            
+            $entityManager->flush();
+        } else {
+            throw new \Exception("User profile update failed: Record not found.");
+        }
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
