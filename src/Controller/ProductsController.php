@@ -28,7 +28,7 @@ class ProductsController extends AbstractController
             ? $categoryRepository->find($categoryId)
             : null;
 
-        return $this->render('Product/catalog.html.twig', [
+        return $this->render('product/catalog.html.twig', [
             'products'        => $products,
             'query'           => $query,
             'currentCategory' => $currentCategory,
